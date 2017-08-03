@@ -16,7 +16,6 @@ var onboardingStateHandlers = Alexa.CreateStateHandler(constants.states.ONBOARDI
     else {
       this.emit(':ask', "We do not have a phone number stored in our system. What is your phone number?");
     }
-
   },
 
   //"my phone number is ..."
@@ -25,11 +24,13 @@ var onboardingStateHandlers = Alexa.CreateStateHandler(constants.states.ONBOARDI
     this.attributes['phoneNumber'] = phoneNumber;
     // find a way to confirm.
     // this.response.speak('foo');
-    console.log(phoneNumber);
-    this.emit(':tell', `Is this the correct number? ${phoneNumber}`);
-    // this.attributes['phoneNumber'] = phoneNumber;
-    // this.handler.state = constants.states.MAIN;
-    // this.emitWithState('LaunchRequest');
+    console.log(`this is the phone number: ${phoneNumber}`);
+    this.emit(':ask', `Is this the correct number?  <say-as interpret-as="digits"> ${phoneNumber} </say-as>`);
+  },
+
+  'YesIntent': function(){
+    this.handler.state = constants.states.MAIN;
+    this.emitWithState('LaunchRequest');
   },
 
   'AMAZON.StopIntent': function () {
